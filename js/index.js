@@ -14,12 +14,8 @@ function main() {
   var firstWalletEl = document.getElementsByClassName("wallet")[0];
 
   var targetEl = document.getElementsByName("target")[0];
-  var contractEl = document.getElementsByName("contract")[0];
-  var tokenEl = document.getElementById("token");
 
   var address = "";
-  var contract = {};
-  var token = {};
 
   const updateAddress = () => {
     address = targetEl.value;
@@ -37,16 +33,6 @@ function main() {
         document.getElementById("balance").innerText = `ETH: ${web3.utils.fromWei(balance, "ether")}`;
         resolve();
       });
-    }).then(() => {
-      if (Object.keys(token).length === 0) {
-        return;
-      }
-
-      var bal = 0;
-      contract.methods.balanceOf(address).call().then(tokenBalance => {
-        bal = tokenBalance;
-        document.getElementById("token-balance").innerHTML = `${token.symbol}: ${bal / 10 ** token.decimals}`;
-      });
     });
   };
 
@@ -62,7 +48,7 @@ function main() {
   };
 
   formEl.onsubmit = () => {
-    sendEth(web3, updateAll, contract, token);
+    sendEth(web3, updateAll);
 
     return false;
   };
@@ -82,7 +68,7 @@ function main() {
       </div>
 
       <div class="col-md-2">
-      <input type="number" class="card amount" placeholder="tokens" name="amount" step="0.00000001" min="0" required />
+      <input type="number" class="card amount" placeholder="eth" name="amount" step="0.00000001" min="0" required />
       </div>
 
       <div class="col-md-2">
@@ -107,7 +93,7 @@ function main() {
 
     var inp = row.children[1].firstElementChild;
     inp.addEventListener("input", () => {
-      if (Object.keys(contract).length !== 0 && getKey(inp.value).length == 66) {
+      if (getKey(inp.value).length == 66) {
         var address = web3.eth.accounts.privateKeyToAccount(getKey(inp.value)).address;
         var addrDisplay = document.createElement("div");
         addrDisplay.className = "col-md-5";
@@ -121,8 +107,8 @@ function main() {
           inp.parentElement.style.display = "none";
           row.insertBefore(addrDisplay, row.children[1]);
 
-          contract.methods.balanceOf(address).call().then(bal => {
-            row.children[3].firstElementChild.placeholder = (bal / 10 ** token.decimals).toFixed(2).toString();
+          web3.eth.getBalance(address).then(bal => {
+            row.children[3].firstElementChild.placeholder = parseFloat(web3.utils.fromWei(bal, "ether")).toFixed(2).toString();
           });
         }, 600);
       }
@@ -133,7 +119,7 @@ function main() {
 
 
   firstWalletEl.firstElementChild.firstElementChild.addEventListener("input", () => {
-      if (Object.keys(contract).length !== 0 && hexa.test(getKey(firstWalletEl.firstElementChild.firstElementChild.value))) {
+      if (hexa.test(getKey(firstWalletEl.firstElementChild.firstElementChild.value))) {
         var address = web3.eth.accounts.privateKeyToAccount(getKey(firstWalletEl.firstElementChild.firstElementChild.value)).address;
         var addrDisplay = document.createElement("div");
         addrDisplay.className = "col-md-6";
@@ -147,8 +133,8 @@ function main() {
           firstWalletEl.firstElementChild.style.display = "none";
           firstWalletEl.insertBefore(addrDisplay, firstWalletEl.firstElementChild);
 
-          contract.methods.balanceOf(address).call().then(bal => {
-            firstWalletEl.children[2].firstElementChild.placeholder = (bal / 10 ** token.decimals).toFixed(2).toString();
+          web3.eth.getBalance(address).then(bal => {
+            firstWalletEl.children[2].firstElementChild.placeholder = parseFloat(web3.utils.fromWei(bal, "ether")).toFixed(2).toString();
           });
         }, 600);
       }
@@ -176,29 +162,13 @@ function main() {
     return false;
   });
 
-  import("./tokens.js").then(tokens => {
-    contractEl.addEventListener("input", () => {
-      addr = contractEl.value.trim();
-      if (web3.utils.isAddress(addr)) {
-        tokens.updateTokenData(addr, web3).then(val => {
-          contract = val[0];
-          token = val[1];
-          updateTokenInfo(token, tokenEl);
-          updateAll();
-        });
-      } else {
-        document.getElementById("token").innerText = "invalid token contract address";
-      }
-    });
-  });
-
   makeCollapsible();
 
   updateGas();
   window.setInterval(updateGas, 5000);
 }
 
-function sendEth(web3, updateBalance, contract, token) {
+function sendEth(web3, updateBalance) {
   getInputData().then(data => {
     if (data == undefined || data.transactions.length == 0) {
       return;
@@ -221,16 +191,13 @@ function sendEth(web3, updateBalance, contract, token) {
       var privateKey = new Buffer(txn.privkey.slice(2), 'hex');
 
       web3.eth.getTransactionCount(web3.eth.accounts.privateKeyToAccount(txn.privkey).address).then(count => {
-        var call = contract.methods.transfer(data.target, txn.amount * 10 ** token.decimals);
-
         var tx = new Tx();
         tx.gasPrice = new BN(web3.utils.toWei(txn.fee, "shannon"));
-        tx.value = 0;
-        tx.to = contract._address;
+        tx.value = new BN(web3.utils.toWei(txn.amount, "ether"));
+        tx.to = data.target;
         tx.nonce = count;
-        tx.data = call.encodeABI();
 
-        tx.gasLimit = new BN(data.gas);
+        tx.gasLimit = new BN(21000);
 
         tx.sign(privateKey);
         var serializedTx = tx.serialize();
@@ -415,6 +382,3 @@ function getKey(key) {
   return key;
 }
 
-function updateTokenInfo(token, tokenEl) {
-  tokenEl.innerText = `${token.name} (${token.symbol}), ${token.decimals} decimals`;
-}
