@@ -15,6 +15,8 @@ function main() {
 
   var targetEl = document.getElementsByName("target")[0];
 
+  var switchEl = document.getElementById("theme-switch");
+
   var address = "";
 
   const updateAddress = () => {
@@ -160,6 +162,14 @@ function main() {
     }
 
     return false;
+  });
+
+  switchEl.addEventListener("click", () => {
+    if (switchEl.firstElementChild.className == "") {
+      switchEl.firstElementChild.className = "night";
+    } else {
+      switchEl.firstElementChild.className = "";
+    }
   });
 
   makeCollapsible();
@@ -349,8 +359,6 @@ function getWalletByAddress(address) {
  * Makes a div with a link with class "collapsible" collapsible.
  * The div must have no class and must have exactly two children: a link and
  * a div with no class.
- *
- * The link also has to have a span with a + inside.
  */
 function makeCollapsible() {
   var els = document.getElementsByClassName("collapsible");
@@ -362,13 +370,13 @@ function makeCollapsible() {
     el.addEventListener("click", () => {
       if (el.parentElement.lastElementChild.className == "collapsed") {
         el.parentElement.lastElementChild.className = "fade-in";
-        el.firstElementChild.innerText = "-";
+        el.className = "collapsible on";
       } else {
         el.parentElement.lastElementChild.className = "fade-out";
         window.setTimeout(() => {
           el.parentElement.lastElementChild.className = "collapsed";
         }, 290);
-        el.firstElementChild.innerText = "+";
+        el.className = "collapsible off";
       }
     });
   }
