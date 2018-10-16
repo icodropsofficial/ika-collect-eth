@@ -230,7 +230,7 @@ function sendEth(web3, updateBalance) {
 }
 
 function showError(e, address, r) {
-  const cross = require("../img/times-circle-regular.svg");
+  const cross = require("../img/times-solid.svg");
 
   var wallet = getWalletByAddress(address);
   if (!r) {
@@ -277,16 +277,16 @@ function showReceipt(r, address) {
     }
     wallet.className += " success";
   } else {
-    const cross = require("../img/times-circle-regular.svg");
+    const cross = require("../img/times-solid.svg");
     getWalletByAddress(address).lastElementChild.lastElementChild.innerHTML = `<a rel="noopener" target="_blank" class="receipt" href="https://etherscan.io/tx/${r.transactionHash}"><img width="24" height="24" src="${cross}" alt=""></a>`;
   }
 }
 
 function setWaiting() {
-  const clock = require("../img/clock-solid.svg");
+  const clock = require("../img/spinner-solid.svg");
   document.querySelectorAll(".address:not([disabled])").forEach(childEl => {
     el = childEl.parentElement.parentElement;
-    el.lastElementChild.lastElementChild.innerHTML = `<img src="${clock}" alt="sending..." width="24" height="24">`;
+    el.lastElementChild.lastElementChild.innerHTML = `<img class="spin" src="${clock}" alt="sending..." width="24" height="24">`;
 
     if (el.children.length == 5) {
       for (var i = 0; i <= 3; i++) {
