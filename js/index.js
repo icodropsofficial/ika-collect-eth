@@ -1,5 +1,7 @@
 'use strict';
 
+var fs = require("fs");
+
 window.addEventListener("load", main);
 
 function main() {
@@ -240,14 +242,14 @@ function sendEth(web3, updateBalance) {
 }
 
 function showError(e, address, r) {
-  const cross = require("../img/times-solid.svg");
+  const cross = fs.readFileSync("img/times-solid.svg", "utf8");
 
   var wallet = getWalletByAddress(address);
   if (!r) {
-    wallet.lastElementChild.lastElementChild.innerHTML = `<img src="${cross}" alt="${e}" width="24" height="24">`;
+    wallet.lastElementChild.lastElementChild.innerHTML = `<div alt="${e}">${cross}</div>`;
     wallet.lastElementChild.lastElementChild.title = e;
   } else {
-    wallet.lastElementChild.lastElementChild.innerHTML = `<a rel="noopener" target="_blank" class="receipt" href="https://etherscan.io/tx/${r.transactionHash}"><img src="${cross}" alt="${e}" width="24" height="24"></a>`;
+    wallet.lastElementChild.lastElementChild.innerHTML = `<a rel="noopener" target="_blank" class="receipt" href="https://etherscan.io/tx/${r.transactionHash}"><div alt="${e}">${cross}</div></a>`;
   }
 
   if (wallet.children.length == 4) {
@@ -267,10 +269,9 @@ function showError(e, address, r) {
 
 function showReceipt(r, address) {
   if (r.status) {
-    const tick = require("../img/external-link-alt-solid.svg");
+    const tick = fs.readFileSync("img/external-link-alt-solid.svg", "utf8");
     var wallet = getWalletByAddress(address);
-    // TODO: change to mainnet
-    wallet.lastElementChild.lastElementChild.innerHTML = `<a rel="noopener" target="_blank" class="receipt" href="https://etherscan.io/tx/${r.transactionHash}"><img src="${tick}" alt="success, click to view on Etherscan" width="24" height="24"></a>`;
+    wallet.lastElementChild.lastElementChild.innerHTML = `<a rel="noopener" target="_blank" class="receipt" href="https://etherscan.io/tx/${r.transactionHash}"><div alt="success, click to view on Etherscan" width="24" height="24">${tick}</div></a>`;
     wallet.lastElementChild.lastElementChild.title = "success, click to view on Etherscan";
     if (wallet.children.length == 5) {
       for (var i = 0; i <= 3; i++) {
@@ -287,16 +288,16 @@ function showReceipt(r, address) {
     }
     wallet.className += " success";
   } else {
-    const cross = require("../img/times-solid.svg");
-    getWalletByAddress(address).lastElementChild.lastElementChild.innerHTML = `<a rel="noopener" target="_blank" class="receipt" href="https://etherscan.io/tx/${r.transactionHash}"><img width="24" height="24" src="${cross}" alt=""></a>`;
+    const cross = fs.readFileSync("img/times-solid.svg", "utf8");
+    getWalletByAddress(address).lastElementChild.lastElementChild.innerHTML = `<a rel="noopener" target="_blank" class="receipt" href="https://etherscan.io/tx/${r.transactionHash}">${cross}</a>`;
   }
 }
 
 function setWaiting() {
-  const clock = require("../img/spinner-solid.svg");
+  const clock = fs.readFileSync("img/spinner-solid.svg", "utf8");
   document.querySelectorAll(".address:not([disabled])").forEach(childEl => {
     el = childEl.parentElement.parentElement;
-    el.lastElementChild.lastElementChild.innerHTML = `<img class="spin" src="${clock}" alt="sending..." width="24" height="24">`;
+    el.lastElementChild.lastElementChild.innerHTML = `<div class="spin" alt="sending...">${clock}</div>`;
 
     if (el.children.length == 5) {
       for (var i = 0; i <= 3; i++) {
