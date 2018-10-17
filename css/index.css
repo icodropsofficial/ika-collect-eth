@@ -295,7 +295,7 @@ footer {
 
 header .container, footer .container {
   padding: 15px;
-  height: 100%;
+  height: 79px;
 }
 
 h2 {
@@ -375,6 +375,19 @@ h2 {
   }
 }
 
+.glow {
+  max-width: 1400px;
+  height: 1px;
+  background: linear-gradient(to right, #060a38 0%,#2960b4 50%,#060a38 100%);
+  margin: auto;
+  visibility: var(--glow);
+}
+
+svg {
+  height: 24px;
+  width: 24px;
+  vertical-align: middle;
+}
 /* THEME */
 
 ::placeholder {
@@ -444,7 +457,7 @@ header, footer, h2 {
 
 #theme-switch {
   background-color:  #122c5f;
-  box-shadow: 0 0 5px 1px #2e496b;
+  box-shadow: 0 0 5px 1px #0d1033;
 }
 
 /* THEME VARS */
@@ -463,23 +476,5 @@ header, footer, h2 {
   --failure: #f46746;
 
   --on-dark: white;
+  --glow: hidden;
 }
-
-/*
-:root {
-  --color: #3f639e;
-  --bg: #0f123b;
-  --link: #1783cf;
-
-  --card-btn: #1783cf;
-
-  --card: white;
-  --card-bg: #1e2467;
-  --card-shadow: #00000000;
-
-  --success: #007b7a;
-  --failure: #a73c22;
-
-  --on-dark: white;
-}
-*/

@@ -13,7 +13,8 @@
     "--success": "#04c89d",
     "--failure": "#f46746",
 
-    "--on-dark": "white"
+    "--on-dark": "white",
+    "--glow": "hidden"
   },
 
   "dark": {
@@ -30,6 +31,7 @@
     "--success": "#007b7a",
     "--failure": "#a73c22",
 
-    "--on-dark": "white"
+    "--on-dark": "white",
+    "--glow": "visible"
   }
 }
