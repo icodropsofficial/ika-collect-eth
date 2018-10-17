@@ -377,46 +377,69 @@ h2 {
 
 /* THEME */
 
+::placeholder {
+  color: var(--color);
+  opacity: 1;
+}
+
 body {
   background: var(--bg);
   color: var(--color);
+
+  transition: all .2s;
 }
 
 .card {
   color: var(--card);
   background-color: var(--card-bg);
   box-shadow: 0px 2px 0px 0px var(--card-shadow);
+
+  transition: all .2s;
 }
 
-.card#add, .card#remove, .setall-btn, #fire, #recalculate {
+.card#add, .card.remove, .setall-btn, #fire, #recalculate {
   color: var(--on-dark);
   background: var(--card-btn);
+
+  transition: all .2s;
 }
 
 input[type="checkbox"] {
   border: 2px solid var(--card-btn);
+
+  transition: all .2s;
 }
 
 input[type="checkbox"]:checked {
   background-color: var(--card-btn);
+
+  transition: all .2s;
 }
 
 a, .collapsible {
   color: var(--link);
+
+  transition: all .2s;
 }
 
 input.success, input.fail.success {
   background: var(--success);
   color: var(--on-dark);
+
+  transition: all .2s;
 }
 
 .fail {
   background: var(--failure);
   color: var(--on-dark);
+
+  transition: all .2s;
 }
 
 header, footer, h2 {
   color: var(--on-dark);
+
+  transition: all .2s;
 }
 
 #theme-switch {
@@ -450,7 +473,7 @@ header, footer, h2 {
 
   --card-btn: #1783cf;
 
-  --card: #3f639e;
+  --card: white;
   --card-bg: #1e2467;
   --card-shadow: #00000000;
 

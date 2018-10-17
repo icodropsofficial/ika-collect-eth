@@ -19,6 +19,8 @@ function main() {
 
   var address = "";
 
+  var themes = require("./themes.json");
+
   const updateAddress = () => {
     address = targetEl.value;
     if (!web3.utils.isAddress(address)) {
@@ -165,11 +167,19 @@ function main() {
   });
 
   switchEl.addEventListener("click", () => {
+    var currentTheme;
+
     if (switchEl.firstElementChild.className == "") {
       switchEl.firstElementChild.className = "night";
+      currentTheme = themes.dark;
     } else {
       switchEl.firstElementChild.className = "";
+      currentTheme = themes.light;
     }
+
+    Object.keys(currentTheme).forEach(k => {
+      document.body.style.setProperty(k, currentTheme[k]);
+    });
   });
 
   makeCollapsible();
