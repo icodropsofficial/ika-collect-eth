@@ -1,0 +1,54 @@
+body {
+  background: #e8e9eb;
+  color: #777;
+}
+
+.card {
+  color: #424242;
+  background-color:  #ffffff;
+  box-shadow: 0px 2px 0px 0px #d6d8dc;
+}
+
+.card#add, .card#remove, .setall-btn, #fire, #recalculate {
+  color: white;
+  background: #c6cad2;
+}
+
+input[type="checkbox"] {
+  border: 2px solid #c6cad2;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #c6cad2;
+}
+
+a {
+  color: #44b9e0;
+}
+
+input.success, input.fail.success {
+  background: #04c89d;
+  color: white;
+}
+
+.fail {
+  background: #f46746;
+  color: white;
+}
+
+.collapsible {
+  color: #44b9e0;
+}
+
+header, footer {
+  color: white;
+}
+
+h2 {
+  color: white;
+}
+
+#theme-switch {
+  background-color:  #122c5f;
+  box-shadow: 0 0 5px 1px #2e496b;
+}
