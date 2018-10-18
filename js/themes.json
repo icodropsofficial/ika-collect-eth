@@ -14,7 +14,8 @@
     "--failure": "#f46746",
 
     "--on-dark": "white",
-    "--glow": "hidden"
+    "--glow": "hidden",
+    "--blend-mode": "unset"
   },
 
   "dark": {
@@ -26,12 +27,13 @@
 
     "--card": "white",
     "--card-bg": "#1e2467",
-    "--card-shadow": "#00000000",
+    "--card-shadow": "#0f123b",
 
     "--success": "#007b7a",
     "--failure": "#a73c22",
 
-    "--on-dark": "white",
-    "--glow": "visible"
+    "--on-dark": "#0f123b",
+    "--glow": "visible",
+    "--blend-mode": "hard-light"
   }
 }

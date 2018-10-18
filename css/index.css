@@ -5,17 +5,17 @@ html {
 
 body {
   padding-bottom: 140px;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 b {
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .card {
   text-align: center;
-  padding-top: 10px;
-  padding-bottom: 9px;
+  padding-top: 12px;
+  padding-bottom: 12px;
   border: none;
   -webkit-appearance: none;
   margin: 0;
@@ -26,6 +26,7 @@ b {
   animation: appear .4s linear;
   border-radius: 5px;
   outline: none;
+  font-weight: 600;
 
   font-size: 18px;
 }
@@ -38,22 +39,22 @@ b {
   cursor: pointer;
   outline: none;
 
-  font-size: 60px;
-  line-height: 20px;
-  font-weight: 200;
+  font-size: 36px;
+  line-height: 0.7;
 }
 
 .card.remove {
   cursor: pointer;
 
-  font-size: 60px;
-  line-height: 20px;
-  font-weight: 200;
+  font-size: 36px;
+  line-height: 0.2;
 }
 
 .setall-btn {
   cursor: pointer;
   transition: all .2s;
+
+  font-weight: 400;
 }
 
 .setall-btn:active {
@@ -68,14 +69,6 @@ button.card {
 #fire:active  {
   transition: all .2s;
   transform: scale(0.98);
-}
-
-.fee, .amount {
-  font-weight: 500;
-}
-
-.fee::placeholder, .amount::placeholder {
-  font-weight: 300;
 }
 
 .address {
@@ -120,7 +113,7 @@ input::-webkit-inner-spin-button {
   transition: all .2s;
 
   height: 80px;
-  font-size: 32px;
+  font-size: 24px;
   text-transform: uppercase;
   font-weight: 500;
 }
@@ -241,8 +234,8 @@ img {
 
 .converted {
   text-align: center;
-  padding-top: 10px;
-  padding-bottom: 9px;
+  padding-top: 12px;
+  padding-bottom: 12px;
   margin: 0;
   box-sizing: border-box;
   max-width: 100%;
@@ -278,17 +271,36 @@ img {
 }
 
 header {
-  background: url(../img/header.png) 50%;
+  background: url(../img/header.png) 50%, url(../img/glow.png) bottom no-repeat;
   height: 80px;
   margin-bottom: 80px;
+  background-blend-mode: var(--blend-mode);
 }
 
 footer {
-  background: url(../img/header.png) 40%;
+  background: url(../img/header.png) 40%, url(../img/glow-upside.png) top no-repeat;
   height: 80px;
+  background-blend-mode: var(--blend-mode);
 
   left: 0;
   bottom: 0;
+  width: 100%;
+  position: absolute;
+}
+
+.shadow {
+  background: url(../img/shadow.png) bottom no-repeat;
+  height: 22px;
+  margin: 0;
+  margin-top: -80px;
+  width: 100%;
+  visibility: var(--glow);
+}
+
+.shadow.bottom {
+  transform: rotate(180deg);
+  left: 0;
+  bottom: 80px;
   width: 100%;
   position: absolute;
 }
@@ -299,7 +311,7 @@ header .container, footer .container {
 }
 
 h2 {
-  font-weight: 500;
+  font-weight: 700;
   font-size: 38px;
   margin-top: 0;
   margin-bottom: 0;
@@ -323,7 +335,7 @@ h2 {
   line-height: 38px;;
   margin-top: 0;
   margin-bottom: 0;
-  font-weight: 100;
+  font-weight: 300;
   display: inline-block;
 
   vertical-align: middle;
@@ -383,6 +395,15 @@ h2 {
   visibility: var(--glow);
 }
 
+/*.glow-overlay {*/
+  /*background: url(../img/glow.png);*/
+  /*max-width: 1161px;*/
+  /*background-blend-mode: luminosity;*/
+  /*height: 17px;*/
+  /*position: relative;*/
+  /*bottom: 17px;*/
+/*}*/
+
 svg {
   height: 24px;
   width: 24px;
@@ -393,6 +414,7 @@ svg {
 ::placeholder {
   color: var(--color);
   opacity: 1;
+  font-weight: 400;
 }
 
 body {
@@ -437,20 +459,20 @@ a, .collapsible {
 
 input.success, input.fail.success {
   background: var(--success);
-  color: var(--on-dark);
+  color: white;
 
   transition: all .2s;
 }
 
 .fail {
   background: var(--failure);
-  color: var(--on-dark);
+  color: white;
 
   transition: all .2s;
 }
 
 header, footer, h2 {
-  color: var(--on-dark);
+  color: white;
 
   transition: all .2s;
 }
@@ -477,4 +499,6 @@ header, footer, h2 {
 
   --on-dark: white;
   --glow: hidden;
+
+  --blend-mode: unset;
 }

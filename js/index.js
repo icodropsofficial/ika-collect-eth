@@ -66,7 +66,7 @@ function main() {
     row.className = "wallet cards row";
     row.innerHTML = `
       <div class="col-md-1">
-      <button class="card remove" type="button">-</button>
+      <button class="card remove" type="button">–</button>
       </div>
 
       <div class="col-md-5">
