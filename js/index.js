@@ -125,7 +125,7 @@ function main() {
 
 
   firstWalletEl.firstElementChild.firstElementChild.addEventListener("input", () => {
-      if (hexa.test(getKey(firstWalletEl.firstElementChild.firstElementChild.value))) {
+      if (getKey(firstWalletEl.firstElementChild.firstElementChild.value).length == 66) {
         var address = web3.eth.accounts.privateKeyToAccount(getKey(firstWalletEl.firstElementChild.firstElementChild.value)).address;
         var addrDisplay = document.createElement("div");
         addrDisplay.className = "col-md-6";
