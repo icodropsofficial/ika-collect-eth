@@ -6,7 +6,7 @@ window.addEventListener("load", main);
 
 function main() {
   var Web3 = require("web3");
-  var web3 = new Web3("https://mainnet.infura.io/v3/84e0a3375afd4f57b4753d39188311d7");
+  var web3 = new Web3("https://rinkeby.infura.io/v3/84e0a3375afd4f57b4753d39188311d7");
   var hexa = /^0x[0-9A-F]+$/i;
 
   var plusEl = document.getElementById("add");
@@ -242,24 +242,24 @@ function sendEth(web3, updateBalance) {
 }
 
 function showError(e, address, r) {
-  const cross = fs.readFileSync("img/times-solid.svg", "utf8");
+  const cross = fs.readFileSync("img/failed.svg", "utf8");
 
   var wallet = getWalletByAddress(address);
   if (!r) {
-    wallet.lastElementChild.lastElementChild.innerHTML = `<div alt="${e}">${cross}</div>`;
+    wallet.lastElementChild.lastElementChild.innerHTML = `<div class="icon" alt="${e}">${cross}</div>`;
     wallet.lastElementChild.lastElementChild.title = e;
   } else {
-    wallet.lastElementChild.lastElementChild.innerHTML = `<a rel="noopener" target="_blank" class="receipt" href="https://etherscan.io/tx/${r.transactionHash}"><div alt="${e}">${cross}</div></a>`;
+    wallet.lastElementChild.lastElementChild.innerHTML = `<a rel="noopener" target="_blank" class="receipt" href="https://etherscan.io/tx/${r.transactionHash}"><div class="icon" alt="${e}">${cross}</div></a>`;
   }
 
-  if (wallet.children.length == 4) {
-    for (var i = 0; i <= 2; i++) {
+  if (wallet.children.length == 5) {
+    for (var i = 0; i <= 3; i++) {
       wallet.children[i].firstElementChild.className += " fail";
         wallet.children[i].firstElementChild.required = true;
         wallet.children[i].firstElementChild.disabled = false;
     }
   } else {
-    for (var i = 1; i <= 3; i++) {
+    for (var i = 1; i <= 4; i++) {
       wallet.children[i].firstElementChild.className += " fail";
         wallet.children[i].firstElementChild.required = true;
         wallet.children[i].firstElementChild.disabled = false;
@@ -269,9 +269,9 @@ function showError(e, address, r) {
 
 function showReceipt(r, address) {
   if (r.status) {
-    const tick = fs.readFileSync("img/external-link-alt-solid.svg", "utf8");
+    const tick = fs.readFileSync("img/external-link.svg", "utf8");
     var wallet = getWalletByAddress(address);
-    wallet.lastElementChild.lastElementChild.innerHTML = `<a rel="noopener" target="_blank" class="receipt" href="https://etherscan.io/tx/${r.transactionHash}"><div alt="success, click to view on Etherscan" width="24" height="24">${tick}</div></a>`;
+    wallet.lastElementChild.lastElementChild.innerHTML = `<a rel="noopener" target="_blank" class="receipt" href="https://etherscan.io/tx/${r.transactionHash}"><div class="icon" alt="success, click to view on Etherscan">${tick}</div></a>`;
     wallet.lastElementChild.lastElementChild.title = "success, click to view on Etherscan";
     if (wallet.children.length == 5) {
       for (var i = 0; i <= 3; i++) {
@@ -288,16 +288,16 @@ function showReceipt(r, address) {
     }
     wallet.className += " success";
   } else {
-    const cross = fs.readFileSync("img/times-solid.svg", "utf8");
-    getWalletByAddress(address).lastElementChild.lastElementChild.innerHTML = `<a rel="noopener" target="_blank" class="receipt" href="https://etherscan.io/tx/${r.transactionHash}">${cross}</a>`;
+    const cross = fs.readFileSync("img/failed.svg", "utf8");
+    getWalletByAddress(address).lastElementChild.lastElementChild.innerHTML = `<a rel="noopener" target="_blank" class="receipt" href="https://etherscan.io/tx/${r.transactionHash}"><div class="icon">${cross}</div></a>`;
   }
 }
 
 function setWaiting() {
-  const clock = fs.readFileSync("img/spinner-solid.svg", "utf8");
+  const clock = fs.readFileSync("img/loading.svg", "utf8");
   document.querySelectorAll(".address:not([disabled])").forEach(childEl => {
     el = childEl.parentElement.parentElement;
-    el.lastElementChild.lastElementChild.innerHTML = `<div class="spin" alt="sending...">${clock}</div>`;
+    el.lastElementChild.lastElementChild.innerHTML = `<div class="icon spin" alt="sending...">${clock}</div>`;
 
     if (el.children.length == 5) {
       for (var i = 0; i <= 3; i++) {
