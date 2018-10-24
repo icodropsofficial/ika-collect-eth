@@ -1,12 +1,21 @@
 'use strict';
 
 var fs = require("fs");
+var themes = require("./themes.json");
+
+var currentTheme = window.localStorage.getItem("theme");
+
+if (currentTheme !== undefined) {
+  setTheme(currentTheme);
+} else {
+  setTheme("day");
+}
 
 window.addEventListener("load", main);
 
 function main() {
   var Web3 = require("web3");
-  var web3 = new Web3("https://rinkeby.infura.io/v3/84e0a3375afd4f57b4753d39188311d7");
+  var web3 = new Web3("https://mainnet.infura.io/v3/84e0a3375afd4f57b4753d39188311d7");
   var hexa = /^0x[0-9A-F]+$/i;
 
   var plusEl = document.getElementById("add");
@@ -18,10 +27,9 @@ function main() {
   var targetEl = document.getElementsByName("target")[0];
 
   var switchEl = document.getElementById("theme-switch");
+  switchEl.firstElementChild.className = window.localStorage.getItem("theme");
 
   var address = "";
-
-  var themes = require("./themes.json");
 
   const updateAddress = () => {
     address = targetEl.value;
@@ -169,25 +177,28 @@ function main() {
   });
 
   switchEl.addEventListener("click", () => {
-    var currentTheme;
-
-    if (switchEl.firstElementChild.className == "") {
+    if (window.localStorage.getItem("theme") == "day") {
+      setTheme("night");
       switchEl.firstElementChild.className = "night";
-      currentTheme = themes.dark;
     } else {
-      switchEl.firstElementChild.className = "";
-      currentTheme = themes.light;
+      setTheme("day");
+      switchEl.firstElementChild.className = "day";
     }
-
-    Object.keys(currentTheme).forEach(k => {
-      document.body.style.setProperty(k, currentTheme[k]);
-    });
   });
 
   makeCollapsible();
 
   updateGas();
   window.setInterval(updateGas, 5000);
+}
+
+function setTheme(theme) {
+
+  window.localStorage.setItem("theme", theme);
+
+  Object.keys(themes[theme]).forEach(k => {
+    document.body.style.setProperty(k, themes[theme][k]);
+  });
 }
 
 function sendEth(web3, updateBalance) {
@@ -246,10 +257,10 @@ function showError(e, address, r) {
 
   var wallet = getWalletByAddress(address);
   if (!r) {
-    wallet.lastElementChild.lastElementChild.innerHTML = `<div class="icon" alt="${e}">${cross}</div>`;
+    wallet.lastElementChild.lastElementChild.innerHTML = `<div class="icon middle">${cross}</div>`;
     wallet.lastElementChild.lastElementChild.title = e;
   } else {
-    wallet.lastElementChild.lastElementChild.innerHTML = `<a rel="noopener" target="_blank" class="receipt" href="https://etherscan.io/tx/${r.transactionHash}"><div class="icon" alt="${e}">${cross}</div></a>`;
+    wallet.lastElementChild.lastElementChild.innerHTML = `<a rel="noopener" target="_blank" class="receipt" href="https://etherscan.io/tx/${r.transactionHash}"><div class="icon middle" alt="${e}">${cross}</div></a>`;
   }
 
   if (wallet.children.length == 5) {
@@ -271,7 +282,7 @@ function showReceipt(r, address) {
   if (r.status) {
     const tick = fs.readFileSync("img/external-link.svg", "utf8");
     var wallet = getWalletByAddress(address);
-    wallet.lastElementChild.lastElementChild.innerHTML = `<a rel="noopener" target="_blank" class="receipt" href="https://etherscan.io/tx/${r.transactionHash}"><div class="icon" alt="success, click to view on Etherscan">${tick}</div></a>`;
+    wallet.lastElementChild.lastElementChild.innerHTML = `<a rel="noopener" target="_blank" class="receipt" href="https://etherscan.io/tx/${r.transactionHash}"><div class="icon middle">${tick}</div></a>`;
     wallet.lastElementChild.lastElementChild.title = "success, click to view on Etherscan";
     if (wallet.children.length == 5) {
       for (var i = 0; i <= 3; i++) {
@@ -297,7 +308,7 @@ function setWaiting() {
   const clock = fs.readFileSync("img/loading.svg", "utf8");
   document.querySelectorAll(".address:not([disabled])").forEach(childEl => {
     el = childEl.parentElement.parentElement;
-    el.lastElementChild.lastElementChild.innerHTML = `<div class="icon spin" alt="sending...">${clock}</div>`;
+    el.lastElementChild.lastElementChild.innerHTML = `<div class="icon spin middle">${clock}</div>`;
 
     if (el.children.length == 5) {
       for (var i = 0; i <= 3; i++) {

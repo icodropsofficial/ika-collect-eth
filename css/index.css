@@ -204,10 +204,6 @@ img {
   }
 }
 
-.github-icon {
-  width: 24px;
-}
-
 #gasprice {
   margin-top: 10px;
   display: block;
@@ -350,6 +346,7 @@ h2 {
   border-radius: 12px;
   width: 49px;
   height: 24px;
+  float: right;
 
   margin-top: 10px;
   margin-bottom: 9px;
@@ -399,20 +396,17 @@ h2 {
   visibility: var(--glow);
 }
 
-/*.glow-overlay {*/
-  /*background: url(../img/glow.png);*/
-  /*max-width: 1161px;*/
-  /*background-blend-mode: luminosity;*/
-  /*height: 17px;*/
-  /*position: relative;*/
-  /*bottom: 17px;*/
-/*}*/
-
 svg {
+  height: 24px;
+  width: 24px;
+}
+
+.icon {
   height: 24px;
   width: 24px;
   vertical-align: middle;
 }
+
 /* THEME */
 
 ::placeholder {
@@ -468,11 +462,19 @@ input.success, input.fail.success {
   transition: all .2s;
 }
 
-.fail {
+input.fail {
   background: var(--failure);
   color: white;
 
   transition: all .2s;
+}
+
+.converted.fail {
+  color: var(--failure);
+}
+
+.converted.success {
+  color: var(--success);
 }
 
 header, footer, h2 {
@@ -486,10 +488,14 @@ header, footer, h2 {
   box-shadow: 0 0 5px 1px #0d1033;
 }
 
+svg, a  svg {
+  color: var(--color);
+}
+
 /* THEME VARS */
 :root {
   --color: #777;
-  --bg: #ebecee;
+  --bg: #666666;
   --link: #44b9e0;
 
   --card-btn: #c6cad2;

@@ -1,5 +1,5 @@
 {
-  "light": {
+  "day": {
     "--color": "#777",
     "--bg": "#ebecee",
     "--link": "#44b9e0",
@@ -18,7 +18,7 @@
     "--blend-mode": "unset"
   },
 
-  "dark": {
+  "night": {
     "--color": "#3f639e",
     "--bg": "#0f123b",
     "--link": "#1783cf",
