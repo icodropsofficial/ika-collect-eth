@@ -407,6 +407,18 @@ svg {
   vertical-align: middle;
 }
 
+h3 {
+  font-weight: 300;
+  font-size: 26px;
+}
+
+.card.tos {
+  margin: auto;
+  cursor: pointer;
+  display: block;
+  animation: none;
+}
+
 /* THEME */
 
 ::placeholder {
@@ -430,7 +442,7 @@ body {
   transition: all .2s;
 }
 
-.card#add, .card.remove, .setall-btn, #fire, #recalculate {
+.card#add, .card.remove, .setall-btn, #fire, #recalculate, .card.tos {
   color: var(--on-dark);
   background: var(--card-btn);
 

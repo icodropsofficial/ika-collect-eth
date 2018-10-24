@@ -187,6 +187,8 @@ function main() {
   });
 
   makeCollapsible();
+  console.log(1);
+  addTosModal();
 
   updateGas();
   window.setInterval(updateGas, 5000);
@@ -412,3 +414,23 @@ function getKey(key) {
   return key;
 }
 
+
+function addTosModal() {
+  var tingle = require("tingle.js");
+  var tosEl = document.getElementById("tos");
+
+  var modal = new tingle.modal({
+    footer: true,
+    closeMethods: ['overlay', 'escape']
+  });
+
+  modal.setContent(require("../disclaimer.html"));
+  modal.addFooterBtn('done', 'card tos', function() {
+    modal.close();
+  });
+
+  tosEl.onclick = () => {
+    modal.open();
+    return false;
+  };
+}
