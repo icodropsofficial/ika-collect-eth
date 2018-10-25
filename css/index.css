@@ -267,14 +267,14 @@ img {
 }
 
 header {
-  background: url(../img/header.png) 50%, url(../img/glow.png) bottom no-repeat;
+  background: url(../img/header.png) 50% no-repeat, url(../img/glow.png) bottom no-repeat;
   height: 80px;
   margin-bottom: 80px;
   background-blend-mode: var(--blend-mode);
 }
 
 footer {
-  background: url(../img/header.png) 40%, url(../img/glow-upside.png) top no-repeat;
+  background: url(../img/header.png) 40% no-repeat, url(../img/glow-upside.png) top no-repeat;
   height: 80px;
   background-blend-mode: var(--blend-mode);
 
