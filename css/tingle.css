@@ -39,6 +39,9 @@
   width: 60%;
   background: var(--bg);
   cursor: auto;
+  margin-top: 0;
+  max-width: 700px;
+  line-height: 24px;
 }
 
 .tingle-modal-box__content {
