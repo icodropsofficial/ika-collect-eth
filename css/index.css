@@ -123,7 +123,8 @@ input::-webkit-inner-spin-button {
 }
 
 @media (max-width: 768px) {
-  .cards div {
+  .wallet.cards div {
+    margin-bottom: 5px;
   }
   .setall:first-child {
     display: none;
