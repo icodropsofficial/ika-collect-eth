@@ -5,13 +5,17 @@ var themes = require("./themes.json");
 
 var currentTheme = window.localStorage.getItem("theme");
 
-if (currentTheme !== undefined) {
+if (themes[currentTheme] != undefined) {
   setTheme(currentTheme);
 } else {
   setTheme("day");
 }
 
-window.addEventListener("load", main);
+if (document.readyState === "loading") {
+  window.addEventListener("DOMContentLoaded", main);
+} else {
+  main();
+}
 
 function main() {
   var Web3 = require("web3");
