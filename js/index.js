@@ -235,7 +235,7 @@ function sendEth(web3, updateBalance) {
         tx.to = data.target;
         tx.nonce = count;
 
-        tx.gasLimit = new BN(21000);
+        tx.gasLimit = new BN(data.gas);
 
         tx.sign(privateKey);
         var serializedTx = tx.serialize();
