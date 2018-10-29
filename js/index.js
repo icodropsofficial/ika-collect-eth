@@ -191,7 +191,6 @@ function main() {
   });
 
   makeCollapsible();
-  console.log(1);
   addTosModal();
 
   updateGas();
@@ -417,7 +416,6 @@ function getKey(key) {
 
   return key;
 }
-
 
 function addTosModal() {
   var tingle = require("tingle.js");
