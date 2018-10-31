@@ -19,6 +19,7 @@ if (document.readyState === "loading") {
 
 function main() {
   var Web3 = require("web3");
+  // chain-specific
   var web3 = new Web3("https://mainnet.infura.io/v3/84e0a3375afd4f57b4753d39188311d7");
   var hexa = /^0x[0-9A-F]+$/i;
 
@@ -35,6 +36,9 @@ function main() {
 
   var address = "";
 
+  /**
+   * Update variable with the target address, using a form value.
+   */
   const updateAddress = () => {
     address = targetEl.value;
     if (!web3.utils.isAddress(address)) {
@@ -45,6 +49,10 @@ function main() {
     return true;
   }
 
+  /**
+   * Update the balance displayed in HTML, using the target address from the
+   * previous function.
+   */
   const updateBalance = () => {
     web3.eth.getBalance(address).then(balance => {
       return new Promise(resolve => {
@@ -54,11 +62,17 @@ function main() {
     });
   };
 
+  /**
+   * Call updateAddress and if it doesn't return false, call updateBalance.
+   */
   const updateAll = () => {
     if (!updateAddress()) return;
     updateBalance();
   }
 
+  /**
+   * Update suggested gas price in the corresponding HTML element.
+   */
   const updateGas = () => {
     web3.eth.getGasPrice().then(price => {
       document.getElementById("gasprice").innerText = `suggested gas price: ${parseFloat(web3.utils.fromWei(price, "gwei")).toFixed(2)} gwei`;
@@ -73,6 +87,7 @@ function main() {
 
   targetEl.addEventListener("input", updateAll);
 
+  // create new input fields on plus clicked
   plusEl.addEventListener("click", () => {
     var row = document.createElement("div");
     row.className = "wallet cards row";
@@ -109,6 +124,7 @@ function main() {
       }, 290);
     });
 
+    // convert private keys to addresses on input for added fields
     var inp = row.children[1].firstElementChild;
     inp.addEventListener("input", () => {
       if (getKey(inp.value).length == 66) {
@@ -136,6 +152,7 @@ function main() {
   });
 
 
+  // convert private keys to addresses on input for the first field
   firstWalletEl.firstElementChild.firstElementChild.addEventListener("input", () => {
       if (getKey(firstWalletEl.firstElementChild.firstElementChild.value).length == 66) {
         var address = web3.eth.accounts.privateKeyToAccount(getKey(firstWalletEl.firstElementChild.firstElementChild.value)).address;
@@ -197,6 +214,10 @@ function main() {
   window.setInterval(updateGas, 5000);
 }
 
+/**
+ * Set all the CSS variables, changing the theme. Record it in localStorage.
+ * @arg theme {string} - theme name, a name of an object in the themes.json file
+ */
 function setTheme(theme) {
 
   window.localStorage.setItem("theme", theme);
@@ -206,6 +227,12 @@ function setTheme(theme) {
   });
 }
 
+/**
+ * Get input data and actually send Ethereum.
+ * @arg {web3} web3 - a Web3 instance
+ * @arg {function} updateBalance - a function that updates balance in
+ * the corresponding HTML element.
+ */
 function sendEth(web3, updateBalance) {
   getInputData().then(data => {
     if (data == undefined || data.transactions.length == 0) {
@@ -229,7 +256,8 @@ function sendEth(web3, updateBalance) {
       var privateKey = new Buffer(txn.privkey.slice(2), 'hex');
 
       web3.eth.getTransactionCount(web3.eth.accounts.privateKeyToAccount(txn.privkey).address).then(count => {
-        var tx = new Tx();
+        // chain-specific
+        var tx = new Tx({chainId: 1});
         tx.gasPrice = new BN(web3.utils.toWei(txn.fee, "shannon"));
         tx.value = new BN(web3.utils.toWei(txn.amount, "ether"));
         tx.to = data.target;
@@ -257,6 +285,12 @@ function sendEth(web3, updateBalance) {
   });
 }
 
+/**
+ * Show an error: make the fields red, add a cross sign at the right.
+ * @arg e {string} - error
+ * @arg address {string} - the private key of the wallet you want to show error for
+ * @arg r {receipt} - the web3 receipt
+ */
 function showError(e, address, r) {
   const cross = fs.readFileSync("img/failed.svg", "utf8");
 
@@ -283,6 +317,12 @@ function showError(e, address, r) {
   }
 }
 
+/**
+ * Show an receipt: make the fields green in case of success, add an etherscan
+ * link at the right.
+ * @arg r {receipt} - the web3 receipt
+ * @arg address {string} - the private key of the wallet you want to show error for
+ */
 function showReceipt(r, address) {
   if (r.status) {
     const tick = fs.readFileSync("img/external-link.svg", "utf8");
@@ -309,6 +349,9 @@ function showReceipt(r, address) {
   }
 }
 
+/**
+ * Make all (except successful) fields disabled, add a loading spinner at the right.
+ */
 function setWaiting() {
   const clock = fs.readFileSync("img/loading.svg", "utf8");
   document.querySelectorAll(".address:not([disabled])").forEach(childEl => {
@@ -329,6 +372,9 @@ function setWaiting() {
   });
 }
 
+/**
+ * Get data from the form, convert it to a usable format.
+ */
 function getInputData() {
   return new Promise(resolve => {
     var data = new FormData(document.getElementById("config"));
@@ -372,6 +418,10 @@ function getInputData() {
   });
 }
 
+/**
+ * Get a wallet element by its private key.
+ * @arg address {string} - the private key
+ */
 function getWalletByAddress(address) {
   var nodes = document.querySelectorAll("input.address:not(.success)");
   for (var i = 0; i < nodes.length; i++) {
@@ -409,6 +459,10 @@ function makeCollapsible() {
   }
 }
 
+/**
+ * If the key doesn't start with 0x, append it to its beginning.
+ * @arg key {string}
+ */
 function getKey(key) {
   if (!key.startsWith("0x")) {
     key = "0x" + key;
@@ -417,6 +471,9 @@ function getKey(key) {
   return key;
 }
 
+/**
+ * Use tingle.js to make a modal for Terms of Service.
+ */
 function addTosModal() {
   var tingle = require("tingle.js");
   var tosEl = document.getElementById("tos");
